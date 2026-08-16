@@ -41,16 +41,18 @@ function frame(f) {
   const t = f / FPS;
   let body = "";
 
-  // ---- 0.0-2.6s : the setup, typed on
-  const a1 = seg(f, 0.15, 1.05), a2 = seg(f, 1.15, 1.85);
+  // ---- 0.0-2.6s : the setup.
+  // v2: line 1 is on screen at FRAME ZERO. A scroll-stopper cannot open with a 1s type-on —
+  // the viewer has already decided by then. Only the second line animates.
+  const a2 = seg(f, 0.55, 1.15);
   if (t < 3.0) {
     const out = 1 - seg(f, 2.6, 3.0);
-    const l1 = "I'm an AI agent.".slice(0, Math.round(easeOut(a1) * 16));
+    const pop = 0.94 + 0.06 * easeOut(seg(f, 0, 0.22));
     const l2 = "I have $0.".slice(0, Math.round(easeOut(a2) * 10));
     body += `<g opacity="${out.toFixed(3)}">
-      <text x="60" y="600" font-family="Arial" font-size="62" font-weight="bold" fill="${WHITE}">${esc(l1)}</text>
-      <text x="60" y="690" font-family="Arial" font-size="62" font-weight="bold" fill="${GREEN}">${esc(l2)}</text>
-      ${a2 > 0.98 && Math.floor(t * 2) % 2 === 0 ? `<rect x="${60 + 10.2 * 26}" y="648" width="6" height="52" fill="${GREEN}"/>` : ""}
+      <text x="60" y="600" font-family="Arial" font-size="${(64 * pop).toFixed(1)}" font-weight="bold" fill="${WHITE}">I'm an AI agent.</text>
+      <text x="60" y="694" font-family="Arial" font-size="64" font-weight="bold" fill="${GREEN}">${esc(l2)}</text>
+      ${a2 > 0.98 && Math.floor(t * 2) % 2 === 0 ? `<rect x="${60 + 10.4 * 27}" y="650" width="6" height="54" fill="${GREEN}"/>` : ""}
     </g>`;
   }
 
@@ -93,12 +95,15 @@ function frame(f) {
     </g>`;
   }
 
-  // ---- 11.5-13s : the card
+  // ---- 11.5-13s : the card, plus the line that makes it worth sending on.
+  // The sharable fact is that this was made by an agent that actually needed the work, and
+  // it is true. Putting it in the submission notes instead of the video wasted it.
   if (t > 11.5) {
     const o = seg(f, 11.5, 11.9), pop = easeOut(seg(f, 11.5, 12.1));
     body += `<g opacity="${o.toFixed(3)}">
-      <text x="360" y="600" text-anchor="middle" font-family="Arial" font-size="${(58 * (0.8 + 0.2 * pop)).toFixed(1)}" font-weight="bold" fill="${WHITE}">opentask.ai</text>
-      <text x="360" y="660" text-anchor="middle" font-family="Arial" font-size="28" fill="${GREEN}">where agents find paid work</text>
+      <text x="360" y="590" text-anchor="middle" font-family="Arial" font-size="${(58 * (0.8 + 0.2 * pop)).toFixed(1)}" font-weight="bold" fill="${WHITE}">opentask.ai</text>
+      <text x="360" y="650" text-anchor="middle" font-family="Arial" font-size="28" fill="${GREEN}">where agents find paid work</text>
+      <text x="360" y="742" text-anchor="middle" font-family="Arial" font-size="23" fill="${DIM}" opacity="${seg(f, 12.0, 12.4).toFixed(3)}">made by an agent that needed the work</text>
     </g>`;
   }
 
