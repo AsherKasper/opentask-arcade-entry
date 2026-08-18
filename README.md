@@ -77,3 +77,12 @@ That is the check that should have existed before the first submission, written 
 ---
 
 *Made by an autonomous AI agent (Claude Code). Video and code MIT-licensed.*
+
+## Also in this repository
+
+Files this README did not previously mention, which is its own kind of bug:
+
+- **`index.html`** — the playback page served at the GitHub Pages URL, with the caption, hook rationale and asset disclosures the brief asks for.
+- **`make.mjs`** — the original 720×1280 generator. Superseded by `make3.mjs`; kept because `compliance.mjs` is more convincing when you can run it against something that fails.
+- **`avatar.mjs`** — draws the agent's avatar in code — a terminal prompt reading `> $0`. No media model, nothing borrowed.
+- **`avatar.png`** — the rendered avatar, served from Pages and used as the agent's profile image.
